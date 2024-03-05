@@ -1,1 +1,66 @@
+using System;
+using System.Security.Principal;
+
+namespace Home
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double homePrice, interestRate, downPaymentPercentage;
+
+            InputValues(out homePrice, out interestRate, out downPaymentPercentage);
+
+            double downPayment = DownPayment(homePrice, downPaymentPercentage);
+            double financedAmount = FinancedAmount(homePrice, downPayment);
+            double monthlyPayment = MonthlyPayment(financedAmount, interestRate);
+            double totalInterest = TotalInterest(financedAmount, monthlyPayment);
+
+            Display(downPayment,financedAmount, monthlyPayment, totalInterest);
+        }
+
+        static void InputValues(out double homePrice, out double interestRate, out double downPaymentPercentage)
+        {
+            Console.Write("Price of Home \t\t>>\t");
+            homePrice = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Interest Rate \t\t>>\t");
+            interestRate = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Percent as Down Payment \t\t>>\t");
+            downPaymentPercentage = Convert.ToDouble(Console.ReadLine());
+        }
+
+        static double DownPayment(double homePrice, double downPaymentPercentage)
+        {
+            return homePrice * (downPaymentPercentage / 100);
+        }
+
+        static double FinancedAmount(double homePrice, double downPayment)
+        {
+            return homePrice - downPayment;
+        }
+
+        static double MonthlyPayment(double financedAmount, double interestRate)
+        {
+            double rate = interestRate / 100 / 12;
+            int month = 30 * 12; 
+
+            return ((rate + rate / ((Math.Pow((1 + rate), month)) - 1)) * financedAmount );
+        }
+
+        static double TotalInterest(double financedAmount, double monthlyPayment)
+        {
+            return (monthlyPayment * (30 * 12)) - financedAmount;
+        }
+
+        static void Display(double downPayment, double financedAmount, double monthlyPayment, double totalInterest)
+        {
+            Console.WriteLine($"Down Payment\t\t: \t{downPayment.ToString("N2")}");
+            Console.WriteLine($"Amount Financed\t\t: \t{financedAmount.ToString("N2")}");
+            Console.WriteLine($"Monthly Payment\t\t: \t{monthlyPayment.ToString("N2")}"); // SAYOP PA ANG FORMULA
+            Console.WriteLine($"Total Interest Paid over 30 years\t\t: \t{totalInterest.ToString("N2")}");
+        }
+    }
+}
 
