@@ -14,7 +14,7 @@ namespace Home
             double downPayment = DownPayment(homePrice, downPaymentPercentage);
             double financedAmount = FinancedAmount(homePrice, downPayment);
             double monthlyPayment = MonthlyPayment(financedAmount, interestRate);
-            double totalInterest = TotalInterest(financedAmount, monthlyPayment);
+            double totalInterest = TotalInterest(homePrice, monthlyPayment);
 
             Display(downPayment,financedAmount, monthlyPayment, totalInterest);
         }
@@ -49,18 +49,17 @@ namespace Home
             return ((rate + rate / ((Math.Pow((1 + rate), month)) - 1)) * financedAmount );
         }
 
-        static double TotalInterest(double financedAmount, double monthlyPayment)
+        static double TotalInterest(double homePrice, double monthlyPayment)
         {
-            return (monthlyPayment * (30 * 12)) - financedAmount;
+            return (monthlyPayment * (30 * 12)) - homePrice;
         }
 
         static void Display(double downPayment, double financedAmount, double monthlyPayment, double totalInterest)
         {
             Console.WriteLine($"Down Payment\t\t: \t{downPayment.ToString("N2")}");
             Console.WriteLine($"Amount Financed\t\t: \t{financedAmount.ToString("N2")}");
-            Console.WriteLine($"Monthly Payment\t\t: \t{monthlyPayment.ToString("N2")}"); // SAYOP PA ANG FORMULA
+            Console.WriteLine($"Monthly Payment\t\t: \t{monthlyPayment.ToString("N2")}");
             Console.WriteLine($"Total Interest Paid over 30 years\t\t: \t{totalInterest.ToString("N2")}");
         }
     }
 }
-
